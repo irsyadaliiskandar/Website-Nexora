@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA CORPORATION · Four Divisions</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ----- GLOBAL STYLES (INLINE) ----- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0b0e14; --secondary: #00e6f6; --accent-ad: #ff5e7c; --accent-rental: #ffb347;
+            --accent-builders: #6c5ce7; --accent-automotive: #2ecc71; --dark: #04070c; --gray-900: #131a28;
+            --gray-800: #1e2636; --white: #ffffff; --font-main: 'Inter', sans-serif; --font-display: 'Space Grotesk', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-main); background-color: var(--primary); color: #eef4ff; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+        h1, h2, h3, h4, .logo, .btn, .nav-link { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; }
+        h2 { font-size: 2.8rem; margin-bottom: 1rem; background: linear-gradient(145deg, #fff, var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; }
+        .section-desc { font-size: 1.1rem; color: #b4c8e0; max-width: 700px; margin-bottom: 3rem; }
+        
+        /* Glass Card */
+        .glass-card { background: rgba(18, 24, 38, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(0, 230, 246, 0.12); border-radius: 28px; transition: 0.25s ease; }
+        .glass-card:hover { border-color: var(--secondary); background: rgba(18, 24, 38, 0.85); transform: translateY(-6px); }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.8rem 2rem; border-radius: 40px; font-weight: 600; border: 1px solid var(--secondary); color: var(--secondary); background: transparent; transition: 0.2s; cursor: pointer; }
+        .btn-primary { background: linear-gradient(145deg, #00e6f6, #6c5ce7); color: #0b0e14; border: none; box-shadow: 0 6px 20px rgba(0, 230, 246, 0.3); }
+        .btn-primary:hover { box-shadow: 0 12px 28px rgba(0, 230, 246, 0.5); transform: scale(1.02); }
+        .btn-outline:hover { background: rgba(0, 230, 246, 0.1); }
+        
+        /* Header */
+        header { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 1.1rem 0; background: rgba(4, 7, 12, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0, 230, 246, 0.1); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        .logo { font-size: 2rem; font-weight: 700; background: linear-gradient(145deg, #fff, var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo span { -webkit-text-fill-color: var(--secondary); }
+        .nav-menu { display: flex; gap: 2.5rem; align-items: center; }
+        .nav-link { font-size: 1rem; font-weight: 500; color: #d0e0f0; position: relative; padding-bottom: 4px; }
+        .nav-link::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2.5px; background: var(--secondary); box-shadow: 0 0 8px var(--secondary); transition: width 0.25s; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .menu-toggle { display: none; font-size: 1.8rem; color: var(--secondary); cursor: pointer; }
+        
+        /* Hero */
+        .hero { padding: 160px 0 80px; position: relative; }
+        .hero-title { font-size: 4.2rem; line-height: 1.1; margin-bottom: 1.8rem; }
+        .hero-title i { font-style: normal; background: linear-gradient(145deg, #00e6f6, #a0f0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-desc { font-size: 1.2rem; color: #b8d0e8; max-width: 70%; margin-bottom: 2.5rem; }
+        
+        /* Divisions Grid */
+        .divisions { padding: 60px 0 80px; }
+        .division-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; margin-top: 1rem; }
+        .division-card { padding: 2rem 1.8rem; border-radius: 28px; background: var(--gray-900); border: 1px solid rgba(255,255,255,0.04); transition: 0.2s; position: relative; overflow: hidden; }
+        .division-card::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: transparent; transition: 0.2s; }
+        .division-card.advertisement::before { background: var(--accent-ad); }
+        .division-card.rental::before { background: var(--accent-rental); }
+        .division-card.builders::before { background: var(--accent-builders); }
+        .division-card.automotive::before { background: var(--accent-automotive); }
+        .division-icon { font-size: 2.5rem; margin-bottom: 1.4rem; }
+        .advertisement .division-icon { color: var(--accent-ad); }
+        .rental .division-icon { color: var(--accent-rental); }
+        .builders .division-icon { color: var(--accent-builders); }
+        .automotive .division-icon { color: var(--accent-automotive); }
+        .division-card h3 { font-size: 1.8rem; margin-bottom: 0.5rem; color: white; }
+        .division-tag { display: inline-block; padding: 0.3rem 1rem; border-radius: 40px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0 0.8rem; font-weight: 600; }
+        .advertisement .division-tag { background: rgba(255,94,124,0.15); color: var(--accent-ad); border: 1px solid var(--accent-ad); }
+        .rental .division-tag { background: rgba(255,179,71,0.15); color: var(--accent-rental); border: 1px solid var(--accent-rental); }
+        .builders .division-tag { background: rgba(108,92,231,0.15); color: var(--accent-builders); border: 1px solid var(--accent-builders); }
+        .automotive .division-tag { background: rgba(46,204,113,0.15); color: var(--accent-automotive); border: 1px solid var(--accent-automotive); }
+        .division-link { font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+        .advertisement .division-link { color: var(--accent-ad); }
+        .rental .division-link { color: var(--accent-rental); }
+        .builders .division-link { color: var(--accent-builders); }
+        .automotive .division-link { color: var(--accent-automotive); }
+        
+        /* Partnerships Section */
+        .partnerships { padding: 80px 0; background: linear-gradient(180deg, var(--dark) 0%, #0a0f1a 100%); }
+        .partners-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .partner-card { background: #1e2636; border-radius: 20px; padding: 2rem 1.5rem; text-align: center; border: 1px solid rgba(0,230,246,0.1); transition: 0.25s; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
+        .partner-card:hover { transform: translateY(-6px); border-color: var(--secondary); box-shadow: 0 12px 30px rgba(0,230,246,0.15); }
+        .partner-icon i { font-size: 3rem; color: var(--secondary); }
+        .partner-card h4 { color: white; font-size: 1.3rem; margin: 0; }
+        .partner-division { font-size: 0.8rem; color: #98aac7; background: rgba(0,230,246,0.1); padding: 0.3rem 1rem; border-radius: 40px; }
+        
+        /* Clients */
+        .clients { padding: 50px 0; background: #060a12; }
+        .client-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 2.5rem; opacity: 0.8; }
+        .client-grid i { font-size: 2.8rem; color: #8fa0c0; transition: 0.2s; }
+        .client-grid i:hover { color: var(--secondary); }
+        
+        /* Footer */
+        footer { background: #03070f; padding: 60px 0 30px; border-top: 1px solid rgba(0,230,246,0.06); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; margin-bottom: 3rem; }
+        .footer-logo { font-size: 2rem; font-weight: 700; background: linear-gradient(145deg, #fff, var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-links h4 { color: white; margin-bottom: 1.4rem; }
+        .footer-links ul li { margin-bottom: 0.7rem; }
+        .footer-links a { color: #98aac7; transition: 0.2s; }
+        .footer-links a:hover { color: var(--secondary); }
+        .social-icons { display: flex; gap: 1.5rem; margin-top: 1.2rem; }
+        .social-icons i { font-size: 1.4rem; color: #8fa0c0; }
+        .social-icons i:hover { color: var(--secondary); }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.04); color: #6a80a0; font-size: 0.9rem; }
+        
+        /* Responsive */
+        @media (max-width: 1024px) { .division-grid { grid-template-columns: repeat(2, 1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } .hero-title { font-size: 3.5rem; } }
+        @media (max-width: 768px) { 
+            .hero-title { font-size: 2.8rem; } .hero-desc { max-width: 100%; } 
+            .nav-menu { position: fixed; top: 80px; left: -100%; width: 75%; background: var(--gray-900); flex-direction: column; padding: 2.5rem; border-radius: 0 20px 20px 0; border: 1px solid rgba(0,230,246,0.2); backdrop-filter: blur(20px); transition: 0.3s; align-items: flex-start; }
+            .nav-menu.active { left: 0; } .menu-toggle { display: block; } .division-grid { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr; } .partners-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) { .container { padding: 0 1.2rem; } h2 { font-size: 2rem; } .hero-title { font-size: 2.2rem; } .partners-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">NEXORA<span>.</span></a>
+            <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#divisions" class="nav-link">Divisions</a></li>
+                <li><a href="#partnerships" class="nav-link">Partners</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="admin.html" class="btn btn-outline"><i class="fas fa-lock"></i> Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h1 class="hero-title">Four engines, <i>one<br>corporate force</i></h1>
+                <p class="hero-desc">NEXORA CORPORATION unites ADVERTISEMENT, RENTAL, BUILDERS, and AUTOMOTIVE<br>under one innovation-driven ecosystem.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="#divisions" class="btn btn-primary"><i class="fas fa-arrow-down"></i> Explore divisions</a>
+                    <a href="#partnerships" class="btn btn-outline"><i class="fas fa-handshake"></i> Our Partners</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="divisions" class="divisions">
+            <div class="container">
+                <h2>Core business pillars</h2>
+                <p class="section-desc">Nexora operates through four specialized divisions.</p>
+                <div class="division-grid" id="division-cards-container"></div>
+            </div>
+        </section>
+
+        <section id="partnerships" class="partnerships">
+            <div class="container">
+                <h2>Strategic Partners</h2>
+                <p class="section-desc">Global leaders who collaborate with Nexora.</p>
+                <div class="partners-grid" id="partners-container"></div>
+            </div>
+        </section>
+
+        <section class="clients">
+            <div class="container">
+                <p style="color: #b0c8e8; text-align: center; margin-bottom: 2rem;">TRUSTED PARTNERS</p>
+                <div class="client-grid" id="client-logos-container"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">NEXORA<span>.</span></div>
+                    <p style="color: #98aac7;">One corporation, four pillars.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>DIVISIONS</h4>
+                    <ul id="footer-divisions-list"></ul>
+                </div>
+                <div class="footer-links">
+                    <h4>PARTNERS</h4>
+                    <ul id="footer-partners-list"></ul>
+                </div>
+                <div class="footer-links">
+                    <h4>ORDER</h4>
+                    <ul>
+                        <li><a href="order-ad.html">Order AD</a></li>
+                        <li><a href="order-rental.html">Order Rental</a></li>
+                        <li><a href="order-builders.html">Order Builders</a></li>
+                        <li><a href="order-automotive.html">Order Auto</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 NEXORA CORPORATION</span>
+                <span style="display: flex; gap: 2rem;">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Cookies</a>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============ DATA DEFAULT ============
+        if (!localStorage.getItem('nexoraDivisions')) {
+            const defaultDivisions = [
+                { id: 'advertisement', title: 'NEXORA AD', icon: 'bullhorn', tag: 'Programmatic • DOOH • Native', desc: 'Hyper‑personalized campaigns.', detailHeader: 'Beyond reach: relevance.', detailDesc: 'AI creative engine.', stat1: '87% attribution lift', stat2: '3.2x ROAS', color: '#ff5e7c' },
+                { id: 'rental', title: 'NEXORA RENTAL', icon: 'building', tag: 'Fleet • Equipment • Property', desc: 'Asset‑light rental ecosystem.', detailHeader: 'From assets to outcomes.', detailDesc: 'Industrial equipment, vehicle fleets.', stat1: '99% fleet uptime', stat2: '2.4h avg. delivery', color: '#ffb347' },
+                { id: 'builders', title: 'NEXORA BUILDERS', icon: 'hard-hat', tag: 'Green construction • Modular', desc: 'Smart infrastructure.', detailHeader: 'Constructing cognitive infrastructure.', detailDesc: 'Modular hospitals, net‑zero towers.', stat1: '52 active skyscrapers', stat2: '31% faster build', color: '#6c5ce7' },
+                { id: 'automotive', title: 'NEXORA AUTO', icon: 'car', tag: 'EV • Autonomous • Aftermarket', desc: 'Next‑gen electric platforms.', detailHeader: 'Electric. Autonomous. Yours.', detailDesc: 'Modular EV platforms.', stat1: '2.1M connected vehicles', stat2: '94% reduction', color: '#2ecc71' }
+            ];
+            localStorage.setItem('nexoraDivisions', JSON.stringify(defaultDivisions));
+        }
+
+        if (!localStorage.getItem('nexoraPartners')) {
+            const defaultPartners = [
+                { id: 1, name: 'Google', icon: 'fab fa-google', url: 'https://google.com', division: 'all' },
+                { id: 2, name: 'Microsoft', icon: 'fab fa-microsoft', url: 'https://microsoft.com', division: 'all' },
+                { id: 3, name: 'Toyota', icon: 'fas fa-car', url: 'https://toyota.com', division: 'automotive' },
+                { id: 4, name: 'Caterpillar', icon: 'fas fa-tractor', url: 'https://caterpillar.com', division: 'builders' },
+                { id: 5, name: 'JCDecaux', icon: 'fas fa-ad', url: 'https://jcdecaux.com', division: 'advertisement' },
+                { id: 6, name: 'Hertz', icon: 'fas fa-car-side', url: 'https://hertz.com', division: 'rental' }
+            ];
+            localStorage.setItem('nexoraPartners', JSON.stringify(defaultPartners));
+        }
+
+        if (!localStorage.getItem('nexoraOrders')) {
+            localStorage.setItem('nexoraOrders', JSON.stringify([]));
+        }
+
+        // ============ LOAD DIVISIONS ============
+        function loadDivisions() {
+            const divisions = JSON.parse(localStorage.getItem('nexoraDivisions'));
+            const container = document.getElementById('division-cards-container');
+            if (container) {
+                container.innerHTML = divisions.map(div => `
+                    <div class="division-card ${div.id} glass-card">
+                        <div class="division-icon"><i class="fas fa-${div.icon}"></i></div>
+                        <h3>${div.title}</h3>
+                        <span class="division-tag">${div.tag}</span>
+                        <p>${div.desc}</p>
+                        <a href="order-${div.id}.html" class="division-link">Order now <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                `).join('');
+            }
+            
+            const footerDivisions = document.getElementById('footer-divisions-list');
+            if (footerDivisions) {
+                footerDivisions.innerHTML = divisions.map(div => `<li><a href="order-${div.id}.html">${div.title}</a></li>`).join('');
+            }
+        }
+
+        // ============ LOAD PARTNERS ============
+        function loadPartners() {
+            const partners = JSON.parse(localStorage.getItem('nexoraPartners'));
+            
+            const partnersContainer = document.getElementById('partners-container');
+            if (partnersContainer) {
+                partnersContainer.innerHTML = partners.map(p => `
+                    <a href="${p.url}" target="_blank" class="partner-card" rel="noopener noreferrer">
+                        <div class="partner-icon"><i class="${p.icon}"></i></div>
+                        <h4>${p.name}</h4>
+                        <span class="partner-division">${p.division === 'all' ? 'Global Partner' : p.division}</span>
+                    </a>
+                `).join('');
+            }
+            
+            const clientContainer = document.getElementById('client-logos-container');
+            if (clientContainer) {
+                clientContainer.innerHTML = partners.slice(0, 6).map(p => `
+                    <a href="${p.url}" target="_blank"><i class="${p.icon}"></i></a>
+                `).join('');
+            }
+            
+            const footerPartners = document.getElementById('footer-partners-list');
+            if (footerPartners) {
+                footerPartners.innerHTML = partners.slice(0, 5).map(p => `<li><a href="${p.url}" target="_blank">${p.name}</a></li>`).join('');
+            }
+        }
+
+        // ============ MOBILE MENU ============
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDivisions();
+            loadPartners();
+            
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            if (mobileMenu) {
+                mobileMenu.addEventListener('click', () => navMenu.classList.toggle('active'));
+            }
+        });
+    </script>
+</body>
+</html>

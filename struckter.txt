@@ -1,0 +1,14 @@
+nexora-corporation/
+│
+├── index.html              (Halaman utama publik)
+├── admin.html              (Dashboard admin utama)
+├── admin-partnership.html  (Admin khusus partnership)
+├── order-ad.html           (Halaman order ADVERTISEMENT)
+├── order-rental.html       (Halaman order RENTAL)
+├── order-builders.html     (Halaman order BUILDERS)
+├── order-automotive.html   (Halaman order AUTOMOTIVE)
+├── style.css               (Global styling)
+├── script.js               (Interaktivitas publik)
+├── admin.js                (Fungsi admin divisions)
+├── partnership.js          (Fungsi admin partnership)
+└── orders.js              (Fungsi order & submission)

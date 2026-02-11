@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA · Partnership Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container { padding: 120px 2rem 4rem; max-width: 1200px; margin: 0 auto; }
+        .partners-table { background: #131a28; border-radius: 28px; padding: 2rem; margin-top: 2rem; }
+        .partner-row { display: grid; grid-template-columns: 2fr 2fr 1fr 1fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #2a3548; align-items: center; }
+        .partner-header { color: var(--secondary); font-weight: 600; border-bottom: 2px solid var(--secondary); }
+        .btn-partner { padding: 0.5rem 1rem; border-radius: 8px; border: none; cursor: pointer; }
+        .btn-add { background: #2ecc71; color: white; }
+        .btn-edit { background: #6c5ce7; color: white; }
+        .btn-delete { background: #ff5e7c; color: white; }
+        .form-container { background: #1e2636; padding: 2rem; border-radius: 20px; margin-bottom: 2rem; }
+    </style>
+</head>
+<body>
+    <header style="background: #04070c; position: fixed; width: 100%; top: 0;">
+        <nav class="navbar">
+            <a href="index.html" class="logo">NEXORA<span>.</span> PARTNERSHIP ADMIN</a>
+            <div>
+                <a href="admin.html" class="btn btn-outline"><i class="fas fa-cog"></i> Divisions</a>
+                <a href="index.html" class="btn btn-outline" target="_blank"><i class="fas fa-external-link-alt"></i> View Site</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1 class="admin-title"><i class="fas fa-handshake" style="color: #00f0ff;"></i> Partnership Management</h1>
+            <button id="logoutBtn" class="btn btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+
+        <!-- Add/Edit Partner Form -->
+        <div class="form-container">
+            <h3 style="color: white; margin-bottom: 1.5rem;"><i class="fas fa-plus-circle" style="color: #2ecc71;"></i> Add New Partner</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem;">
+                <input type="text" id="partnerName" class="admin-input" placeholder="Partner Name (e.g. Google)">
+                <input type="text" id="partnerLogo" class="admin-input" placeholder="Font Awesome Icon (e.g. fab fa-google)">
+                <input type="url" id="partnerUrl" class="admin-input" placeholder="Website URL (https://...)">
+                <select id="partnerDivision" class="admin-input">
+                    <option value="all">All Divisions</option>
+                    <option value="advertisement">ADVERTISEMENT</option>
+                    <option value="rental">RENTAL</option>
+                    <option value="builders">BUILDERS</option>
+                    <option value="automotive">AUTOMOTIVE</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button id="savePartnerBtn" class="btn-admin btn-save"><i class="fas fa-save"></i> Save Partner</button>
+                <button id="cancelEditBtn" class="btn-admin btn-outline" style="display: none;">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Partners List -->
+        <div class="partners-table">
+            <h3 style="color: white; margin-bottom: 1.5rem;"><i class="fas fa-list"></i> Existing Partners</h3>
+            <div class="partner-row partner-header">
+                <div>Partner Name</div>
+                <div>Icon</div>
+                <div>Division</div>
+                <div>Actions</div>
+            </div>
+            <div id="partners-list-container">
+                <!-- Dynamic from JS -->
+            </div>
+        </div>
+
+        <!-- Orders Summary -->
+        <div style="margin-top: 3rem; background: #131a28; border-radius: 28px; padding: 2rem;">
+            <h3 style="color: white; margin-bottom: 1.5rem;"><i class="fas fa-shopping-cart"></i> Recent Orders (All Divisions)</h3>
+            <div id="orders-summary-container">
+                <!-- Orders will be listed here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="partnership.js"></script>
+</body>
+</html>
