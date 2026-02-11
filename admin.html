@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA · Admin Partnerships</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Copy dari admin.html + tambahan */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #0b0e14; --secondary: #00e6f6; --gray-900: #131a28; }
+        body { font-family: 'Inter', sans-serif; background: var(--primary); color: white; }
+        header { background: #04070c; padding: 1rem 2rem; position: fixed; width: 100%; top: 0; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; background: linear-gradient(145deg, #fff, var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn { padding: 0.6rem 1.5rem; border-radius: 40px; border: 1px solid var(--secondary); color: var(--secondary); background: transparent; text-decoration: none; }
+        .admin-container { padding: 120px 2rem; max-width: 1200px; margin: 0 auto; }
+        .admin-card { background: var(--gray-900); border-radius: 28px; padding: 2rem; margin-bottom: 2rem; }
+        .admin-input { background: #1e2a3a; border: 1px solid #3a4a62; padding: 0.8rem 1.2rem; border-radius: 12px; color: white; width: 100%; }
+        .btn-save { background: #2ecc71; color: white; border: none; padding: 0.8rem 1.8rem; border-radius: 12px; cursor: pointer; }
+        .btn-delete { background: #ff5e7c; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 8px; cursor: pointer; }
+        .partner-row { display: grid; grid-template-columns: 2fr 2fr 1fr 1fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #2a3548; align-items: center; }
+        .login-box { max-width: 400px; margin: 100px auto; background: var(--gray-900); padding: 3rem; border-radius: 28px; text-align: center; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div id="loginSection" class="login-box">
+        <h2 style="margin-bottom: 1.5rem;">Admin Login</h2>
+        <input type="password" id="password" class="admin-input" placeholder="Password" style="margin-bottom: 1rem;">
+        <button id="loginBtn" class="btn-save" style="width: 100%;">Login</button>
+        <p style="margin-top: 1rem; color: #98aac7;">Default: nexora2026</p>
+    </div>
+
+    <div id="adminDashboard" class="hidden">
+        <header>
+            <nav class="navbar">
+                <span class="logo">NEXORA PARTNERSHIP ADMIN</span>
+                <div>
+                    <a href="admin.html" class="btn">Divisions</a>
+                    <a href="index.html" class="btn" target="_blank">View Site</a>
+                    <button id="logoutBtn" class="btn" style="margin-left: 1rem;">Logout</button>
+                </div>
+            </nav>
+        </header>
+
+        <div class="admin-container">
+            <h1 style="margin-bottom: 2rem;">Partnership Management</h1>
+            
+            <!-- Form Add/Edit Partner -->
+            <div class="admin-card">
+                <h3 style="margin-bottom: 1.5rem;">Add / Edit Partner</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <input type="text" id="partnerName" class="admin-input" placeholder="Partner Name">
+                    <input type="text" id="partnerIcon" class="admin-input" placeholder="Icon (e.g. fab fa-google)">
+                    <input type="url" id="partnerUrl" class="admin-input" placeholder="Website URL">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem;">
+                    <select id="partnerDivision" class="admin-input">
+                        <option value="all">All Divisions</option>
+                        <option value="advertisement">ADVERTISEMENT</option>
+                        <option value="rental">RENTAL</option>
+                        <option value="builders">BUILDERS</option>
+                        <option value="automotive">AUTOMOTIVE</option>
+                    </select>
+                    <button id="savePartnerBtn" class="btn-save">Save Partner</button>
+                </div>
+            </div>
+
+            <!-- Partners List -->
+            <div class="admin-card">
+                <h3 style="margin-bottom: 1.5rem;">Existing Partners</h3>
+                <div id="partnersList"></div>
+            </div>
+
+            <!-- Orders List -->
+            <div class="admin-card">
+                <h3 style="margin-bottom: 1.5rem;">Recent Orders</h3>
+                <div id="ordersList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASS = 'nexora2026';
+        let editingPartnerId = null;
+
+        // Initialize default partners
+        if (!localStorage.getItem('nexoraPartners')) {
+            const defaultPartners = [
+                { id: 1, name: 'Google', icon: 'fab fa-google', url: 'https://google.com', division: 'all' },
+                { id: 2, name: 'Microsoft', icon: 'fab fa-microsoft', url: 'https://microsoft.com', division: 'all' },
+                { id: 3, name: 'Toyota', icon: 'fas fa-car', url: 'https://toyota.com', division: 'automotive' },
+                { id: 4, name: 'Caterpillar', icon: 'fas fa-tractor', url: 'https://caterpillar.com', division: 'builders' }
+            ];
+            localStorage.setItem('nexoraPartners', JSON.stringify(defaultPartners));
+        }
+
+        // Render Partners
+        function renderPartners() {
+            const partners = JSON.parse(localStorage.getItem('nexoraPartners')) || [];
+            const container = document.getElementById('partnersList');
+            if (!container) return;
+            
+            container.innerHTML = partners.map(p => `
+                <div class="partner-row">
+                    <div style="color: white;">${p.name}</div>
+                    <div><i class="${p.icon}" style="color: #00f0ff;"></i></div>
+                    <div style="color: #98aac7;">${p.division}</div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="editPartner(${p.id})" style="background: #6c5ce7; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 6px;">Edit</button>
+                        <button onclick="deletePartner(${p.id})" class="btn-delete">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Orders
+        function renderOrders() {
+            const orders = JSON.parse(localStorage.getItem('nexoraOrders')) || [];
+            const container = document.getElementById('ordersList');
+            if (!container) return;
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<p style="color: #98aac7;">No orders yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = orders.slice(-5).reverse().map(o => `
+                <div style="display: grid; grid-template-columns: 2fr 2fr 1.5fr 1fr; gap: 1rem; padding: 0.8rem; border-bottom: 1px solid #2a3548;">
+                    <div style="color: white;">${o.division}</div>
+                    <div>${o.name}</div>
+                    <div style="color: #98aac7;">${o.email}</div>
+                    <div><span style="background: #ffb34720; color: #ffb347; padding: 0.2rem 0.8rem; border-radius: 20px;">${o.status || 'pending'}</span></div>
+                </div>
+            `).join('');
+        }
+
+        // Edit Partner
+        window.editPartner = function(id) {
+            const partners = JSON.parse(localStorage.getItem('nexoraPartners'));
+            const p = partners.find(p => p.id === id);
+            if (p) {
+                document.getElementById('partnerName').value = p.name;
+                document.getElementById('partnerIcon').value = p.icon;
+                document.getElementById('partnerUrl').value = p.url || '';
+                document.getElementById('partnerDivision').value = p.division;
+                editingPartnerId = id;
+            }
+        };
+
+        // Delete Partner
+        window.deletePartner = function(id) {
+            if (confirm('Delete this partner?')) {
+                let partners = JSON.parse(localStorage.getItem('nexoraPartners'));
+                partners = partners.filter(p => p.id !== id);
+                localStorage.setItem('nexoraPartners', JSON.stringify(partners));
+                renderPartners();
+            }
+        };
+
+        // Save Partner
+        function savePartner() {
+            const partners = JSON.parse(localStorage.getItem('nexoraPartners')) || [];
+            const name = document.getElementById('partnerName').value;
+            const icon = document.getElementById('partnerIcon').value;
+            const url = document.getElementById('partnerUrl').value;
+            const division = document.getElementById('partnerDivision').value;
+            
+            if (!name || !icon) { alert('Name and icon required'); return; }
+            
+            if (editingPartnerId) {
+                // Update
+                const index = partners.findIndex(p => p.id === editingPartnerId);
+                if (index !== -1) {
+                    partners[index] = { ...partners[index], name, icon, url, division };
+                }
+                editingPartnerId = null;
+            } else {
+                // Create
+                const newId = partners.length > 0 ? Math.max(...partners.map(p => p.id)) + 1 : 1;
+                partners.push({ id: newId, name, icon, url, division });
+            }
+            
+            localStorage.setItem('nexoraPartners', JSON.stringify(partners));
+            
+            // Clear form
+            document.getElementById('partnerName').value = '';
+            document.getElementById('partnerIcon').value = '';
+            document.getElementById('partnerUrl').value = '';
+            document.getElementById('partnerDivision').value = 'all';
+            
+            renderPartners();
+            alert('Partner saved!');
+        }
+
+        // Login
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                if (document.getElementById('password').value === ADMIN_PASS) {
+                    document.getElementById('loginSection').classList.add('hidden');
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    renderPartners();
+                    renderOrders();
+                } else alert('Wrong password');
+            });
+
+            document.getElementById('savePartnerBtn').addEventListener('click', savePartner);
+            
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                document.getElementById('loginSection').classList.remove('hidden');
+                document.getElementById('adminDashboard').classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
